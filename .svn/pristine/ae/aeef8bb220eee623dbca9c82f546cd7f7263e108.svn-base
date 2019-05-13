@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+
+namespace PurchaseOrder.Data
+{
+	public partial class BusinessEntityModel:ModelBase
+	{
+		private string _BusinessEntityCode;
+		private int? _BusinessEntityID;
+		private string _BusinessEntityName;
+		private Byte? _BusinessEntityStatusID;
+		private Byte? _BusinessEntityTypeID;
+		private string _VatNumber;
+		
+		public BusinessEntityModel()
+		{
+		}
+
+		public string BusinessEntityCode
+		{
+			get { return _BusinessEntityCode; }
+			set { _BusinessEntityCode = value; }
+		}
+
+		public int? BusinessEntityID
+		{
+			get { return _BusinessEntityID; }
+			set { _BusinessEntityID = value; }
+		}
+
+		public string BusinessEntityName
+		{
+			get { return _BusinessEntityName; }
+			set { _BusinessEntityName = value; }
+		}
+
+		public Byte? BusinessEntityStatusID
+		{
+			get { return _BusinessEntityStatusID; }
+			set { _BusinessEntityStatusID = value; }
+		}
+
+		public Byte? BusinessEntityTypeID
+		{
+			get { return _BusinessEntityTypeID; }
+			set { _BusinessEntityTypeID = value; }
+		}
+
+		public string VatNumber
+		{
+			get { return _VatNumber; }
+			set { _VatNumber = value; }
+		}
+
+		public enum Fields
+		{
+			BusinessEntityCode = 0,
+			BusinessEntityID = 1,
+			BusinessEntityName = 2,
+			BusinessEntityStatusID = 3,
+			BusinessEntityTypeID = 4,
+			VatNumber = 5
+		}
+	}
+}

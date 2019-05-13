@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace BSW_ExchangeShared
+{
+
+    public enum EventLogType
+    {
+        Error = 1,
+        Warning = 2,
+        Information = 3,
+        ProcessStart = 4,
+        ProcessComplete = 5,
+        ProcessFailed = 6
+    }
+
+    public enum ScheduleFrequencyType
+    {
+        Dailey = 1,
+        Weekley = 2
+    }
+
+    public enum AdaptorType
+    {
+        Application = 1,
+        StoredProcedure = 2
+    }
+
+    public enum ProfileType
+    {
+        ImportFromLocalFolder = 1
+
+    }
+
+    public enum MessageType
+    {
+        PurchaseOrderImport = 1,
+        SupplierMasterFile = 2,
+        ProductList = 3,
+        AZROEUpdate = 4,
+        BMWCNExport = 5,
+        SailingScheduleImport = 6,
+        MustekOrderImport = 7
+    }
+
+    public enum MessageStatus
+    {
+        ReceivedReady = 1,
+        ReceivedFail = 2,
+        ProcessedSuccess = 3,
+        ProcessedFailed = 4
+    }
+
+    public enum MessageClass
+    {
+        FailedInternalError = 1,
+        FailedStructuraError = 2,
+        FailedDataValidationError = 3,
+        Sucess = 4
+    }
+
+    class SharedEnums
+    {
+    }
+}

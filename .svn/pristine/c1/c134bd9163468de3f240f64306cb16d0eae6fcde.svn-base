@@ -1,0 +1,230 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace BSW_ExchangeData
+{
+	public partial class ImportMessageController : List<ImportMessageModel>, IController
+	{
+		
+		public bool Get(ImportMessageModel model, ref string msg)
+		{
+			bool result = true;
+
+			try
+			{
+				List<SqlParameter> listParameters = new List<SqlParameter>();
+
+				if (!string.IsNullOrEmpty(model.ClientReference))
+					listParameters.Add(ControllerManager.CreateParameter("@ClientReference", model.ClientReference, SqlDbType.VarChar));
+
+				if (model.ImportDT.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@ImportDT", model.ImportDT.Value, SqlDbType.DateTime));
+
+				if (model.MessageID.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@MessageID", model.MessageID.Value, SqlDbType.BigInt));
+
+				if (model.MessageStatus.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@MessageStatus", model.MessageStatus.Value, SqlDbType.TinyInt));
+
+				if (model.MessageTypeID.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@MessageTypeID", model.MessageTypeID.Value, SqlDbType.TinyInt));
+
+				if (model.ProfileID.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@ProfileID", model.ProfileID.Value, SqlDbType.TinyInt));
+
+				if (model.XMLMessage == null)
+					listParameters.Add(ControllerManager.CreateParameter("@XMLMessage", model.XMLMessage, SqlDbType.Xml));
+
+				
+				result = ControllerManager.ExecuteSP("BSWXImportMessageGet", listParameters, this, ref msg);
+			}
+			catch (Exception ex)
+			{
+				msg = ex.Message;
+				result = false;
+			}
+
+			return result;
+		}
+
+		public bool Insert(ImportMessageModel model, ref string msg)
+		{
+			bool result = true;
+
+			try
+			{
+				List<SqlParameter> listParameters = new List<SqlParameter>();
+
+				listParameters.Add(ControllerManager.CreateParameter("@ClientReference", model.ClientReference, SqlDbType.VarChar));
+				listParameters.Add(ControllerManager.CreateParameter("@MessageStatus", model.MessageStatus, SqlDbType.TinyInt));
+				listParameters.Add(ControllerManager.CreateParameter("@MessageTypeID", model.MessageTypeID, SqlDbType.TinyInt));
+				listParameters.Add(ControllerManager.CreateParameter("@ProfileID", model.ProfileID, SqlDbType.TinyInt));
+				listParameters.Add(ControllerManager.CreateParameter("@XMLMessage", model.XMLMessage, SqlDbType.Xml));
+
+				object value = null;
+
+				result = ControllerManager.ExecuteSPScalar("BSWXImportMessageInsert", listParameters, ref value, ref msg);
+
+				if (result)
+					model.MessageID = ControllerManager.Converter.ToInt64(value);
+			}
+			catch (Exception ex)
+			{
+				msg = ex.Message;
+				result = false;
+			}
+
+			return result;
+		}
+
+		public bool Update(ImportMessageModel model, bool dynamicUpdate, ref string msg)
+		{
+			bool result = true;
+
+			try
+			{
+				List<SqlParameter> listParameters = new List<SqlParameter>();
+
+				listParameters.Add(ControllerManager.CreateParameter("@MessageID", model.MessageID.Value, SqlDbType.BigInt));
+
+				if (dynamicUpdate)
+				{
+					if (!string.IsNullOrEmpty(model.ClientReference))
+						listParameters.Add(ControllerManager.CreateParameter("@ClientReference", model.ClientReference, SqlDbType.VarChar));
+
+					if (model.ImportDT.HasValue)
+						listParameters.Add(ControllerManager.CreateParameter("@ImportDT", model.ImportDT.Value, SqlDbType.DateTime));
+
+					if (model.MessageStatus.HasValue)
+						listParameters.Add(ControllerManager.CreateParameter("@MessageStatus", model.MessageStatus.Value, SqlDbType.TinyInt));
+
+					if (model.MessageTypeID.HasValue)
+						listParameters.Add(ControllerManager.CreateParameter("@MessageTypeID", model.MessageTypeID.Value, SqlDbType.TinyInt));
+
+					if (model.ProfileID.HasValue)
+						listParameters.Add(ControllerManager.CreateParameter("@ProfileID", model.ProfileID.Value, SqlDbType.TinyInt));
+
+					if (model.XMLMessage == null)
+						listParameters.Add(ControllerManager.CreateParameter("@XMLMessage", model.XMLMessage, SqlDbType.Xml));
+
+				}
+				else
+				{
+					listParameters.Add(ControllerManager.CreateParameter("@ClientReference", model.ClientReference, SqlDbType.VarChar));
+					listParameters.Add(ControllerManager.CreateParameter("@ImportDT", model.ImportDT, SqlDbType.DateTime));
+					listParameters.Add(ControllerManager.CreateParameter("@MessageStatus", model.MessageStatus, SqlDbType.TinyInt));
+					listParameters.Add(ControllerManager.CreateParameter("@MessageTypeID", model.MessageTypeID, SqlDbType.TinyInt));
+					listParameters.Add(ControllerManager.CreateParameter("@ProfileID", model.ProfileID, SqlDbType.TinyInt));
+					listParameters.Add(ControllerManager.CreateParameter("@XMLMessage", model.XMLMessage, SqlDbType.Xml));
+				}
+
+				listParameters.Add(ControllerManager.CreateParameter("@CheckNull", dynamicUpdate ? 1 : 0, SqlDbType.Bit));
+
+				result = ControllerManager.ExecuteSP("BSWXImportMessageUpdate", listParameters, ref msg);
+			}
+			catch (Exception ex)
+			{
+				msg = ex.Message;
+				result = false;
+			}
+
+			return result;
+		}
+
+		public bool Delete(ImportMessageModel model, ref string msg)
+		{
+			bool result = true;
+
+			try
+			{
+				List<SqlParameter> listParameters = new List<SqlParameter>();
+
+				if (!string.IsNullOrEmpty(model.ClientReference))
+					listParameters.Add(ControllerManager.CreateParameter("@ClientReference", model.ClientReference, SqlDbType.VarChar));
+
+				if (model.ImportDT.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@ImportDT", model.ImportDT.Value, SqlDbType.DateTime));
+
+				if (model.MessageID.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@MessageID", model.MessageID.Value, SqlDbType.BigInt));
+
+				if (model.MessageStatus.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@MessageStatus", model.MessageStatus.Value, SqlDbType.TinyInt));
+
+				if (model.MessageTypeID.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@MessageTypeID", model.MessageTypeID.Value, SqlDbType.TinyInt));
+
+				if (model.ProfileID.HasValue)
+					listParameters.Add(ControllerManager.CreateParameter("@ProfileID", model.ProfileID.Value, SqlDbType.TinyInt));
+
+				if (model.XMLMessage == null)
+					listParameters.Add(ControllerManager.CreateParameter("@XMLMessage", model.XMLMessage, SqlDbType.Xml));
+
+				result = ControllerManager.ExecuteSP("BSWXImportMessageDelete", listParameters, ref msg);
+			}
+			catch (Exception ex)
+			{
+				msg = ex.Message;
+				result = false;
+			}
+
+			return result;
+		}
+
+		public bool ReadModelData(SqlDataReader reader, ref string msg)
+		{
+			try
+			{
+				ImportMessageModel model = new ImportMessageModel();
+
+				model.ClientReference = ControllerManager.Converter.ToString(reader["ClientReference"]);
+				model.ImportDT = ControllerManager.Converter.ToDateTime(reader["ImportDT"]);
+				model.MessageID = ControllerManager.Converter.ToInt64(reader["MessageID"]);
+				model.MessageStatus = ControllerManager.Converter.ToByte(reader["MessageStatus"]);
+				model.MessageTypeID = ControllerManager.Converter.ToByte(reader["MessageTypeID"]);
+				model.ProfileID = ControllerManager.Converter.ToByte(reader["ProfileID"]);
+                model.XMLMessage = ControllerManager.Converter.ToString(reader["XMLMessage"]);
+
+				this.Add(model);
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				msg = ex.Message;
+				return false;
+			}
+		}
+
+		public void ClearModelData()
+		{
+			Clear();
+		}
+
+		#region - Methods : Dispose -
+
+		private bool _disposed = false;
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (!_disposed)
+			{
+				if (disposing)
+				{
+					ClearModelData();
+				}
+			}
+			_disposed = true;
+		}
+
+		#endregion
+	}
+}

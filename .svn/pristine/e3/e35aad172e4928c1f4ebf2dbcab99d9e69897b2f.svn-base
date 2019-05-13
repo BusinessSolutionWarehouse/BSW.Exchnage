@@ -1,0 +1,163 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+
+namespace PurchaseOrder.Data
+{
+	public partial class OrderLineModel
+	{
+		private DateTime? _CreatedDt;
+		private Int16? _CreatedUserID;
+		private string _Description;
+		private DateTime? _OnSiteDt;
+		private int? _OrderID;
+		private int? _OrderLineID;
+		private Byte? _OrderLineStatusID;
+		private int? _ProductID;
+		private string _SupplierRefNo;
+		private string _TariffCode;
+		private decimal? _TotalVolume;
+		private decimal? _TotalWeight;
+		private Int16? _UnitCurrencyID;
+		private decimal? _UnitPrice;
+		private int? _UnitQuantity;
+		private Byte? _UnitTypeID;
+		private DateTime? _UpdatedDt;
+		private Int16? _UpdatedUserID;
+		
+		public OrderLineModel()
+		{
+		}
+
+		public DateTime? CreatedDt
+		{
+			get { return _CreatedDt; }
+			set { _CreatedDt = value; }
+		}
+
+		public Int16? CreatedUserID
+		{
+			get { return _CreatedUserID; }
+			set { _CreatedUserID = value; }
+		}
+
+		public string Description
+		{
+			get { return _Description; }
+			set { _Description = value; }
+		}
+
+		public DateTime? OnSiteDt
+		{
+			get { return _OnSiteDt; }
+			set { _OnSiteDt = value; }
+		}
+
+		public int? OrderID
+		{
+			get { return _OrderID; }
+			set { _OrderID = value; }
+		}
+
+		public int? OrderLineID
+		{
+			get { return _OrderLineID; }
+			set { _OrderLineID = value; }
+		}
+
+		public Byte? OrderLineStatusID
+		{
+			get { return _OrderLineStatusID; }
+			set { _OrderLineStatusID = value; }
+		}
+
+		public int? ProductID
+		{
+			get { return _ProductID; }
+			set { _ProductID = value; }
+		}
+
+		public string SupplierRefNo
+		{
+			get { return _SupplierRefNo; }
+			set { _SupplierRefNo = value; }
+		}
+
+		public string TariffCode
+		{
+			get { return _TariffCode; }
+			set { _TariffCode = value; }
+		}
+
+		public decimal? TotalVolume
+		{
+			get { return _TotalVolume; }
+			set { _TotalVolume = value; }
+		}
+
+		public decimal? TotalWeight
+		{
+			get { return _TotalWeight; }
+			set { _TotalWeight = value; }
+		}
+
+		public Int16? UnitCurrencyID
+		{
+			get { return _UnitCurrencyID; }
+			set { _UnitCurrencyID = value; }
+		}
+
+		public decimal? UnitPrice
+		{
+			get { return _UnitPrice; }
+			set { _UnitPrice = value; }
+		}
+
+		public int? UnitQuantity
+		{
+			get { return _UnitQuantity; }
+			set { _UnitQuantity = value; }
+		}
+
+		public Byte? UnitTypeID
+		{
+			get { return _UnitTypeID; }
+			set { _UnitTypeID = value; }
+		}
+
+		public DateTime? UpdatedDt
+		{
+			get { return _UpdatedDt; }
+			set { _UpdatedDt = value; }
+		}
+
+		public Int16? UpdatedUserID
+		{
+			get { return _UpdatedUserID; }
+			set { _UpdatedUserID = value; }
+		}
+
+		public enum Fields
+		{
+			CreatedDt = 0,
+			CreatedUserID = 1,
+			Description = 2,
+			OnSiteDt = 3,
+			OrderID = 4,
+			OrderLineID = 5,
+			OrderLineStatusID = 6,
+			ProductID = 7,
+			SupplierRefNo = 8,
+			TariffCode = 9,
+			TotalVolume = 10,
+			TotalWeight = 11,
+			UnitCurrencyID = 12,
+			UnitPrice = 13,
+			UnitQuantity = 14,
+			UnitTypeID = 15,
+			UpdatedDt = 16,
+			UpdatedUserID = 17
+		}
+	}
+}

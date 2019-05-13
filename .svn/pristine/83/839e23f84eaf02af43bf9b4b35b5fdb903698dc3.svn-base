@@ -1,0 +1,267 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+
+namespace PurchaseOrder.Data
+{
+	public partial class PurchaseOrderModel:ModelBase
+	{
+		private Int16? _BankID;
+		private int? _BuyerID;
+		private string _BuyerRef;
+		private Int16? _CountryOriginID;
+		private DateTime? _CreatedDt;
+		private Int16? _CreatedUserID;
+		private string _FinalDestinationCode;
+		private int? _ImporterID;
+		private string _ImporterRef;
+		private string _INCOTermCode;
+		private string _LCNumber;
+		private DateTime? _OrderDt;
+		private int? _OrderID;
+		private string _OrderNo;
+		private Byte? _OrderStatusID;
+		private DateTime? _PaymentDate;
+		private Byte? _PaymentTermID;
+		private Byte? _PaymentTriggerID;
+		private Byte? _PaymentTypeID;
+		private string _PlaceReceiptCode;
+		private string _PortDischargeCode;
+		private string _PortLoadingCode;
+		private int? _SupplierID;
+		private Int16? _SupplierInvoiceCurrencyID;
+		private string _SupplierInvoiceRef;
+		private decimal? _SupplierInvoiceROE;
+		private decimal? _SupplierInvoiceValue;
+		private string _SupplierRef;
+		private Byte? _TransportModeID;
+		private DateTime? _UpdatedDt;
+		private Int16? _UpdatedUserID;
+		
+		public PurchaseOrderModel()
+		{
+		}
+
+		public Int16? BankID
+		{
+			get { return _BankID; }
+			set { _BankID = value; }
+		}
+
+		public int? BuyerID
+		{
+			get { return _BuyerID; }
+			set { _BuyerID = value; }
+		}
+
+		public string BuyerRef
+		{
+			get { return _BuyerRef; }
+			set { _BuyerRef = value; }
+		}
+
+		public Int16? CountryOriginID
+		{
+			get { return _CountryOriginID; }
+			set { _CountryOriginID = value; }
+		}
+
+		public DateTime? CreatedDt
+		{
+			get { return _CreatedDt; }
+			set { _CreatedDt = value; }
+		}
+
+		public Int16? CreatedUserID
+		{
+			get { return _CreatedUserID; }
+			set { _CreatedUserID = value; }
+		}
+
+		public string FinalDestinationCode
+		{
+			get { return _FinalDestinationCode; }
+			set { _FinalDestinationCode = value; }
+		}
+
+		public int? ImporterID
+		{
+			get { return _ImporterID; }
+			set { _ImporterID = value; }
+		}
+
+		public string ImporterRef
+		{
+			get { return _ImporterRef; }
+			set { _ImporterRef = value; }
+		}
+
+		public string INCOTermCode
+		{
+			get { return _INCOTermCode; }
+			set { _INCOTermCode = value; }
+		}
+
+		public string LCNumber
+		{
+			get { return _LCNumber; }
+			set { _LCNumber = value; }
+		}
+
+		public DateTime? OrderDt
+		{
+			get { return _OrderDt; }
+			set { _OrderDt = value; }
+		}
+
+		public int? OrderID
+		{
+			get { return _OrderID; }
+			set { _OrderID = value; }
+		}
+
+		public string OrderNo
+		{
+			get { return _OrderNo; }
+			set { _OrderNo = value; }
+		}
+
+		public Byte? OrderStatusID
+		{
+			get { return _OrderStatusID; }
+			set { _OrderStatusID = value; }
+		}
+
+		public DateTime? PaymentDate
+		{
+			get { return _PaymentDate; }
+			set { _PaymentDate = value; }
+		}
+
+		public Byte? PaymentTermID
+		{
+			get { return _PaymentTermID; }
+			set { _PaymentTermID = value; }
+		}
+
+		public Byte? PaymentTriggerID
+		{
+			get { return _PaymentTriggerID; }
+			set { _PaymentTriggerID = value; }
+		}
+
+		public Byte? PaymentTypeID
+		{
+			get { return _PaymentTypeID; }
+			set { _PaymentTypeID = value; }
+		}
+
+		public string PlaceReceiptCode
+		{
+			get { return _PlaceReceiptCode; }
+			set { _PlaceReceiptCode = value; }
+		}
+
+		public string PortDischargeCode
+		{
+			get { return _PortDischargeCode; }
+			set { _PortDischargeCode = value; }
+		}
+
+		public string PortLoadingCode
+		{
+			get { return _PortLoadingCode; }
+			set { _PortLoadingCode = value; }
+		}
+
+		public int? SupplierID
+		{
+			get { return _SupplierID; }
+			set { _SupplierID = value; }
+		}
+
+		public Int16? SupplierInvoiceCurrencyID
+		{
+			get { return _SupplierInvoiceCurrencyID; }
+			set { _SupplierInvoiceCurrencyID = value; }
+		}
+
+		public string SupplierInvoiceRef
+		{
+			get { return _SupplierInvoiceRef; }
+			set { _SupplierInvoiceRef = value; }
+		}
+
+		public decimal? SupplierInvoiceROE
+		{
+			get { return _SupplierInvoiceROE; }
+			set { _SupplierInvoiceROE = value; }
+		}
+
+		public decimal? SupplierInvoiceValue
+		{
+			get { return _SupplierInvoiceValue; }
+			set { _SupplierInvoiceValue = value; }
+		}
+
+		public string SupplierRef
+		{
+			get { return _SupplierRef; }
+			set { _SupplierRef = value; }
+		}
+
+		public Byte? TransportModeID
+		{
+			get { return _TransportModeID; }
+			set { _TransportModeID = value; }
+		}
+
+		public DateTime? UpdatedDt
+		{
+			get { return _UpdatedDt; }
+			set { _UpdatedDt = value; }
+		}
+
+		public Int16? UpdatedUserID
+		{
+			get { return _UpdatedUserID; }
+			set { _UpdatedUserID = value; }
+		}
+
+		public enum Fields
+		{
+			BankID = 0,
+			BuyerID = 1,
+			BuyerRef = 2,
+			CountryOriginID = 3,
+			CreatedDt = 4,
+			CreatedUserID = 5,
+			FinalDestinationCode = 6,
+			ImporterID = 7,
+			ImporterRef = 8,
+			INCOTermCode = 9,
+			LCNumber = 10,
+			OrderDt = 11,
+			OrderID = 12,
+			OrderNo = 13,
+			OrderStatusID = 14,
+			PaymentDate = 15,
+			PaymentTermID = 16,
+			PaymentTriggerID = 17,
+			PaymentTypeID = 18,
+			PlaceReceiptCode = 19,
+			PortDischargeCode = 20,
+			PortLoadingCode = 21,
+			SupplierID = 22,
+			SupplierInvoiceCurrencyID = 23,
+			SupplierInvoiceRef = 24,
+			SupplierInvoiceROE = 25,
+			SupplierInvoiceValue = 26,
+			SupplierRef = 27,
+			TransportModeID = 28,
+			UpdatedDt = 29,
+			UpdatedUserID = 30
+		}
+	}
+}

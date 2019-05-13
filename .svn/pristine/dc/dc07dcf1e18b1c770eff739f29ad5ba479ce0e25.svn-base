@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <connectionStrings>
+    <clear/>
+    <add name="BSWExchange" connectionString="Persist Security Info=False;Initial Catalog=BSWExchange;Data Source=CARLO-NB;UID=sa;PWD=W13l13w4l13;Packet Size=32767;Pooling=true;Max Pool Size=100;Min Pool Size=0;"/>
+    <add name="SCS" connectionString="Persist Security Info=False;Initial Catalog=SupplyChainSolution;Data Source=CARLO-NB;UID=sa;PWD=W13l13w4l13;Packet Size=32767;Pooling=true;Max Pool Size=100;Min Pool Size=0;"/>
+  </connectionStrings>
+  <system.serviceModel>
+    <bindings />
+    <client />
+  </system.serviceModel>
+</configuration>

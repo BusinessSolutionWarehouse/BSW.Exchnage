@@ -1,0 +1,5 @@
+[03:02:02 PM] - ProcessNo : Database Event Logging [ERROR] - The INSERT statement conflicted with the FOREIGN KEY constraint "FK_ProfileHistory_Profile". The conflict occurred in database "BSWExchange", table "dbo.Profile", column 'ProfileID'.
+The statement has been terminated.
+[03:02:02 PM] - ProcessNo : BSWExchange-LogProfileHistory [ERROR] - An endpoint configuration section for contract 'ROEFeed.engineSoap' could not be loaded because more than one endpoint configuration for that contract was found. Please indicate the preferred endpoint configuration section by name.
+[03:02:02 PM] - ProcessNo : Database Event Logging [ERROR] - The INSERT statement conflicted with the FOREIGN KEY constraint "FK_ProfileHistory_Profile". The conflict occurred in database "BSWExchange", table "dbo.Profile", column 'ProfileID'.
+The statement has been terminated.

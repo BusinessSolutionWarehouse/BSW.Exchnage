@@ -1,0 +1,422 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace PurchaseOrder.Data
+{
+	public partial class OrderLineController : List<OrderLineModel>, IController
+	{
+
+        public bool Get(OrderLineModel model, ref string msg)
+        {
+            return Get(model, null, null, ref msg);
+        }
+
+        public bool Get(OrderLineModel model, OrderLineModel.Fields? sortByField, SortOrder? sortOrder, ref string msg)
+        {
+            bool result = true;
+
+            try
+            {
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+                if (model.ClaimsPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@ClaimsPercentage", model.ClaimsPercentage.Value, SqlDbType.Decimal));
+
+                if (model.ContingencyPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@ContingencyPercentage", model.ContingencyPercentage.Value, SqlDbType.Decimal));
+
+                if (model.CreatedDt.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@CreatedDt", model.CreatedDt.Value, SqlDbType.DateTime));
+
+                if (model.CreatedUserID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@CreatedUserID", model.CreatedUserID.Value, SqlDbType.SmallInt));
+
+                if (!string.IsNullOrEmpty(model.Description))
+                    listParameters.Add(ControllerManager.CreateParameter("@Description", model.Description, SqlDbType.VarChar));
+
+                if (model.FIFOPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@FIFOPercentage", model.FIFOPercentage.Value, SqlDbType.Decimal));
+
+                if (model.MarketingPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@MarketingPercentage", model.MarketingPercentage.Value, SqlDbType.Decimal));
+
+                if (model.OnSiteDt.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OnSiteDt", model.OnSiteDt.Value, SqlDbType.DateTime));
+
+                if (model.OrderID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderID", model.OrderID.Value, SqlDbType.Int));
+
+                if (model.OrderLineID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderLineID", model.OrderLineID.Value, SqlDbType.Int));
+
+                if (model.OrderLineStatusID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderLineStatusID", model.OrderLineStatusID.Value, SqlDbType.SmallInt));
+
+                if (model.ProductID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@ProductID", model.ProductID.Value, SqlDbType.Int));
+
+                if (!string.IsNullOrEmpty(model.SupplierRefNo))
+                    listParameters.Add(ControllerManager.CreateParameter("@SupplierRefNo", model.SupplierRefNo, SqlDbType.VarChar));
+
+                if (!string.IsNullOrEmpty(model.TariffCode))
+                    listParameters.Add(ControllerManager.CreateParameter("@TariffCode", model.TariffCode, SqlDbType.VarChar));
+
+                if (model.TotalVolume.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@TotalVolume", model.TotalVolume.Value, SqlDbType.Decimal));
+
+                if (model.TotalWeight.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@TotalWeight", model.TotalWeight.Value, SqlDbType.Decimal));
+
+                if (model.UnitCurrencyID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitCurrencyID", model.UnitCurrencyID.Value, SqlDbType.SmallInt));
+
+                if (model.UnitPrice.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitPrice", model.UnitPrice.Value, SqlDbType.Money));
+
+                if (model.UnitQuantity.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitQuantity", model.UnitQuantity.Value, SqlDbType.Int));
+
+                if (model.UnitTypeID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitTypeID", model.UnitTypeID.Value, SqlDbType.TinyInt));
+
+                if (model.UpdatedDt.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UpdatedDt", model.UpdatedDt.Value, SqlDbType.DateTime));
+
+                if (model.UpdatedUserID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UpdatedUserID", model.UpdatedUserID.Value, SqlDbType.SmallInt));
+
+                if (sortByField.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@SortByField", sortByField.Value.ToString(), SqlDbType.VarChar));
+
+                if (sortOrder.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@SortOrder", sortOrder.Value, SqlDbType.SmallInt));
+
+                result = ControllerManager.ExecuteSP("OrderLineGet_Custom", listParameters, this, ref msg);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool Insert(OrderLineModel model, ref string msg)
+        {
+            bool result = true;
+
+
+            try
+            {
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+                listParameters.Add(ControllerManager.CreateParameter("@ClaimsPercentage", model.ClaimsPercentage, SqlDbType.Decimal));
+                listParameters.Add(ControllerManager.CreateParameter("@ContingencyPercentage", model.ContingencyPercentage, SqlDbType.Decimal));
+                listParameters.Add(ControllerManager.CreateParameter("@CreatedDt", model.CreatedDt, SqlDbType.DateTime));
+                listParameters.Add(ControllerManager.CreateParameter("@CreatedUserID", model.CreatedUserID, SqlDbType.SmallInt));
+                listParameters.Add(ControllerManager.CreateParameter("@Description", model.Description, SqlDbType.VarChar));
+                listParameters.Add(ControllerManager.CreateParameter("@FIFOPercentage", model.FIFOPercentage, SqlDbType.Decimal));
+                listParameters.Add(ControllerManager.CreateParameter("@MarketingPercentage", model.MarketingPercentage, SqlDbType.Decimal));
+                listParameters.Add(ControllerManager.CreateParameter("@OnSiteDt", model.OnSiteDt, SqlDbType.DateTime));
+                listParameters.Add(ControllerManager.CreateParameter("@OrderID", model.OrderID, SqlDbType.Int));
+                listParameters.Add(ControllerManager.CreateParameter("@OrderLineStatusID", model.OrderLineStatusID, SqlDbType.SmallInt));
+                listParameters.Add(ControllerManager.CreateParameter("@ProductID", model.ProductID, SqlDbType.Int));
+                listParameters.Add(ControllerManager.CreateParameter("@SupplierRefNo", model.SupplierRefNo, SqlDbType.VarChar));
+                listParameters.Add(ControllerManager.CreateParameter("@TariffCode", model.TariffCode, SqlDbType.VarChar));
+                listParameters.Add(ControllerManager.CreateParameter("@TotalVolume", model.TotalVolume, SqlDbType.Decimal));
+                listParameters.Add(ControllerManager.CreateParameter("@TotalWeight", model.TotalWeight, SqlDbType.Decimal));
+                listParameters.Add(ControllerManager.CreateParameter("@UnitCurrencyID", model.UnitCurrencyID, SqlDbType.SmallInt));
+                listParameters.Add(ControllerManager.CreateParameter("@UnitPrice", model.UnitPrice, SqlDbType.Money));
+                listParameters.Add(ControllerManager.CreateParameter("@UnitQuantity", model.UnitQuantity, SqlDbType.Int));
+                listParameters.Add(ControllerManager.CreateParameter("@UnitTypeID", model.UnitTypeID, SqlDbType.TinyInt));
+                listParameters.Add(ControllerManager.CreateParameter("@UpdatedDt", model.UpdatedDt, SqlDbType.DateTime));
+                listParameters.Add(ControllerManager.CreateParameter("@UpdatedUserID", model.UpdatedUserID, SqlDbType.SmallInt));
+
+                object value = null;
+
+                result = ControllerManager.ExecuteSPScalar("OrderLineInsert", listParameters, ref value, ref msg);
+
+                if (result)
+                    model.OrderLineID = ControllerManager.Converter.ToInt32(value);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool Update(OrderLineModel model, bool dynamicUpdate, ref string msg)
+        {
+            bool result = true;
+
+            try
+            {
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+                listParameters.Add(ControllerManager.CreateParameter("@OrderLineID", model.OrderLineID.Value, SqlDbType.Int));
+
+                if (dynamicUpdate)
+                {
+                    if (model.ClaimsPercentage.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@ClaimsPercentage", model.ClaimsPercentage.Value, SqlDbType.Decimal));
+
+                    if (model.ContingencyPercentage.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@ContingencyPercentage", model.ContingencyPercentage.Value, SqlDbType.Decimal));
+
+                    if (model.CreatedDt.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@CreatedDt", model.CreatedDt.Value, SqlDbType.DateTime));
+
+                    if (model.CreatedUserID.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@CreatedUserID", model.CreatedUserID.Value, SqlDbType.SmallInt));
+
+                    if (!string.IsNullOrEmpty(model.Description))
+                        listParameters.Add(ControllerManager.CreateParameter("@Description", model.Description, SqlDbType.VarChar));
+
+                    if (model.FIFOPercentage.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@FIFOPercentage", model.FIFOPercentage.Value, SqlDbType.Decimal));
+
+                    if (model.MarketingPercentage.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@MarketingPercentage", model.MarketingPercentage.Value, SqlDbType.Decimal));
+
+                    if (model.OnSiteDt.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@OnSiteDt", model.OnSiteDt.Value, SqlDbType.DateTime));
+
+                    if (model.OrderID.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@OrderID", model.OrderID.Value, SqlDbType.Int));
+
+                    if (model.OrderLineStatusID.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@OrderLineStatusID", model.OrderLineStatusID.Value, SqlDbType.SmallInt));
+
+                    if (model.ProductID.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@ProductID", model.ProductID.Value, SqlDbType.Int));
+
+                    if (!string.IsNullOrEmpty(model.SupplierRefNo))
+                        listParameters.Add(ControllerManager.CreateParameter("@SupplierRefNo", model.SupplierRefNo, SqlDbType.VarChar));
+
+                    if (!string.IsNullOrEmpty(model.TariffCode))
+                        listParameters.Add(ControllerManager.CreateParameter("@TariffCode", model.TariffCode, SqlDbType.VarChar));
+
+                    if (model.TotalVolume.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@TotalVolume", model.TotalVolume.Value, SqlDbType.Decimal));
+
+                    if (model.TotalWeight.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@TotalWeight", model.TotalWeight.Value, SqlDbType.Decimal));
+
+                    if (model.UnitCurrencyID.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@UnitCurrencyID", model.UnitCurrencyID.Value, SqlDbType.SmallInt));
+
+                    if (model.UnitPrice.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@UnitPrice", model.UnitPrice.Value, SqlDbType.Money));
+
+                    if (model.UnitQuantity.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@UnitQuantity", model.UnitQuantity.Value, SqlDbType.Int));
+
+                    if (model.UnitTypeID.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@UnitTypeID", model.UnitTypeID.Value, SqlDbType.TinyInt));
+
+                    if (model.UpdatedDt.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@UpdatedDt", model.UpdatedDt.Value, SqlDbType.DateTime));
+
+                    if (model.UpdatedUserID.HasValue)
+                        listParameters.Add(ControllerManager.CreateParameter("@UpdatedUserID", model.UpdatedUserID.Value, SqlDbType.SmallInt));
+
+                }
+                else
+                {
+                    listParameters.Add(ControllerManager.CreateParameter("@ClaimsPercentage", model.ClaimsPercentage, SqlDbType.Decimal));
+                    listParameters.Add(ControllerManager.CreateParameter("@ContingencyPercentage", model.ContingencyPercentage, SqlDbType.Decimal));
+                    listParameters.Add(ControllerManager.CreateParameter("@CreatedDt", model.CreatedDt, SqlDbType.DateTime));
+                    listParameters.Add(ControllerManager.CreateParameter("@CreatedUserID", model.CreatedUserID, SqlDbType.SmallInt));
+                    listParameters.Add(ControllerManager.CreateParameter("@Description", model.Description, SqlDbType.VarChar));
+                    listParameters.Add(ControllerManager.CreateParameter("@FIFOPercentage", model.FIFOPercentage, SqlDbType.Decimal));
+                    listParameters.Add(ControllerManager.CreateParameter("@MarketingPercentage", model.MarketingPercentage, SqlDbType.Decimal));
+                    listParameters.Add(ControllerManager.CreateParameter("@OnSiteDt", model.OnSiteDt, SqlDbType.DateTime));
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderID", model.OrderID, SqlDbType.Int));
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderLineStatusID", model.OrderLineStatusID, SqlDbType.SmallInt));
+                    listParameters.Add(ControllerManager.CreateParameter("@ProductID", model.ProductID, SqlDbType.Int));
+                    listParameters.Add(ControllerManager.CreateParameter("@SupplierRefNo", model.SupplierRefNo, SqlDbType.VarChar));
+                    listParameters.Add(ControllerManager.CreateParameter("@TariffCode", model.TariffCode, SqlDbType.VarChar));
+                    listParameters.Add(ControllerManager.CreateParameter("@TotalVolume", model.TotalVolume, SqlDbType.Decimal));
+                    listParameters.Add(ControllerManager.CreateParameter("@TotalWeight", model.TotalWeight, SqlDbType.Decimal));
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitCurrencyID", model.UnitCurrencyID, SqlDbType.SmallInt));
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitPrice", model.UnitPrice, SqlDbType.Money));
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitQuantity", model.UnitQuantity, SqlDbType.Int));
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitTypeID", model.UnitTypeID, SqlDbType.TinyInt));
+                    listParameters.Add(ControllerManager.CreateParameter("@UpdatedDt", model.UpdatedDt, SqlDbType.DateTime));
+                    listParameters.Add(ControllerManager.CreateParameter("@UpdatedUserID", model.UpdatedUserID, SqlDbType.SmallInt));
+                }
+
+                listParameters.Add(ControllerManager.CreateParameter("@CheckNull", dynamicUpdate ? 1 : 0, SqlDbType.Bit));
+
+                result = ControllerManager.ExecuteSP("OrderLineUpdate", listParameters, ref msg);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool Delete(OrderLineModel model, ref string msg)
+        {
+            bool result = true;
+
+            try
+            {
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+                if (model.ClaimsPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@ClaimsPercentage", model.ClaimsPercentage.Value, SqlDbType.Decimal));
+
+                if (model.ContingencyPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@ContingencyPercentage", model.ContingencyPercentage.Value, SqlDbType.Decimal));
+
+                if (model.CreatedDt.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@CreatedDt", model.CreatedDt.Value, SqlDbType.DateTime));
+
+                if (model.CreatedUserID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@CreatedUserID", model.CreatedUserID.Value, SqlDbType.SmallInt));
+
+                if (!string.IsNullOrEmpty(model.Description))
+                    listParameters.Add(ControllerManager.CreateParameter("@Description", model.Description, SqlDbType.VarChar));
+
+                if (model.FIFOPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@FIFOPercentage", model.FIFOPercentage.Value, SqlDbType.Decimal));
+
+                if (model.MarketingPercentage.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@MarketingPercentage", model.MarketingPercentage.Value, SqlDbType.Decimal));
+
+                if (model.OnSiteDt.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OnSiteDt", model.OnSiteDt.Value, SqlDbType.DateTime));
+
+                if (model.OrderID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderID", model.OrderID.Value, SqlDbType.Int));
+
+                if (model.OrderLineID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderLineID", model.OrderLineID.Value, SqlDbType.Int));
+
+                if (model.OrderLineStatusID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@OrderLineStatusID", model.OrderLineStatusID.Value, SqlDbType.SmallInt));
+
+                if (model.ProductID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@ProductID", model.ProductID.Value, SqlDbType.Int));
+
+                if (!string.IsNullOrEmpty(model.SupplierRefNo))
+                    listParameters.Add(ControllerManager.CreateParameter("@SupplierRefNo", model.SupplierRefNo, SqlDbType.VarChar));
+
+                if (!string.IsNullOrEmpty(model.TariffCode))
+                    listParameters.Add(ControllerManager.CreateParameter("@TariffCode", model.TariffCode, SqlDbType.VarChar));
+
+                if (model.TotalVolume.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@TotalVolume", model.TotalVolume.Value, SqlDbType.Decimal));
+
+                if (model.TotalWeight.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@TotalWeight", model.TotalWeight.Value, SqlDbType.Decimal));
+
+                if (model.UnitCurrencyID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitCurrencyID", model.UnitCurrencyID.Value, SqlDbType.SmallInt));
+
+                if (model.UnitPrice.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitPrice", model.UnitPrice.Value, SqlDbType.Money));
+
+                if (model.UnitQuantity.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitQuantity", model.UnitQuantity.Value, SqlDbType.Int));
+
+                if (model.UnitTypeID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UnitTypeID", model.UnitTypeID.Value, SqlDbType.TinyInt));
+
+                if (model.UpdatedDt.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UpdatedDt", model.UpdatedDt.Value, SqlDbType.DateTime));
+
+                if (model.UpdatedUserID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@UpdatedUserID", model.UpdatedUserID.Value, SqlDbType.SmallInt));
+
+                result = ControllerManager.ExecuteSP("OrderLineDelete", listParameters, ref msg);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool ReadModelData(SqlDataReader reader, ref string msg)
+        {
+            try
+            {
+                OrderLineModel model = new OrderLineModel();
+
+                model.ClaimsPercentage = ControllerManager.Converter.ToDecimal(reader["ClaimsPercentage"]);
+                model.ContingencyPercentage = ControllerManager.Converter.ToDecimal(reader["ContingencyPercentage"]);
+                model.CreatedDt = ControllerManager.Converter.ToDateTime(reader["CreatedDt"]);
+                model.CreatedUserID = ControllerManager.Converter.ToInt16(reader["CreatedUserID"]);
+                model.Description = ControllerManager.Converter.ToString(reader["Description"]);
+                model.FIFOPercentage = ControllerManager.Converter.ToDecimal(reader["FIFOPercentage"]);
+                model.MarketingPercentage = ControllerManager.Converter.ToDecimal(reader["MarketingPercentage"]);
+                model.OnSiteDt = ControllerManager.Converter.ToDateTime(reader["OnSiteDt"]);
+                model.OrderID = ControllerManager.Converter.ToInt32(reader["OrderID"]);
+                model.OrderLineID = ControllerManager.Converter.ToInt32(reader["OrderLineID"]);
+                model.OrderLineStatusID = ControllerManager.Converter.ToInt16(reader["OrderLineStatusID"]);
+                model.ProductID = ControllerManager.Converter.ToInt32(reader["ProductID"]);
+                model.SupplierRefNo = ControllerManager.Converter.ToString(reader["SupplierRefNo"]);
+                model.TariffCode = ControllerManager.Converter.ToString(reader["TariffCode"]);
+                model.TotalVolume = ControllerManager.Converter.ToDecimal(reader["TotalVolume"]);
+                model.TotalWeight = ControllerManager.Converter.ToDecimal(reader["TotalWeight"]);
+                model.UnitCurrencyID = ControllerManager.Converter.ToInt16(reader["UnitCurrencyID"]);
+                model.UnitPrice = ControllerManager.Converter.ToDecimal(reader["UnitPrice"]);
+                model.UnitQuantity = ControllerManager.Converter.ToInt32(reader["UnitQuantity"]);
+                model.UnitTypeID = ControllerManager.Converter.ToByte(reader["UnitTypeID"]);
+                model.UpdatedDt = ControllerManager.Converter.ToDateTime(reader["UpdatedDt"]);
+                model.UpdatedUserID = ControllerManager.Converter.ToInt16(reader["UpdatedUserID"]);
+
+                this.Add(model);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                return false;
+            }
+        }
+
+        public void ClearModelData()
+        {
+            Clear();
+        }
+
+        #region - Methods : Dispose -
+
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    ClearModelData();
+                }
+            }
+            _disposed = true;
+        }
+
+        #endregion
+    }
+}

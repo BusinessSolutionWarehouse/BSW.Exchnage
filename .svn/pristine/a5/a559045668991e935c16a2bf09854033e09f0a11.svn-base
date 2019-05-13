@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+
+namespace BSW_ExchangeData
+{
+	public partial class ScheduleModel:ModelBase
+	{
+		private Byte? _FrequencyTypeID;
+		private Byte? _OccursEveryHour;
+		private Byte? _OccursEveryMinute;
+		private bool _OccursOnce = false;
+		private string _OccursOnceAt;
+		private Byte? _RecursEvery;
+		private string _ScheduleDescription;
+		private Byte? _ScheduleID;
+		private string _ScheduleName;
+		
+		public ScheduleModel()
+		{
+		}
+
+		public Byte? FrequencyTypeID
+		{
+			get { return _FrequencyTypeID; }
+			set { _FrequencyTypeID = value; }
+		}
+
+		public Byte? OccursEveryHour
+		{
+			get { return _OccursEveryHour; }
+			set { _OccursEveryHour = value; }
+		}
+
+		public Byte? OccursEveryMinute
+		{
+			get { return _OccursEveryMinute; }
+			set { _OccursEveryMinute = value; }
+		}
+
+		public bool OccursOnce
+		{
+			get { return _OccursOnce; }
+			set { _OccursOnce = value; }
+		}
+
+		public string OccursOnceAt
+		{
+			get { return _OccursOnceAt; }
+			set { _OccursOnceAt = value; }
+		}
+
+		public Byte? RecursEvery
+		{
+			get { return _RecursEvery; }
+			set { _RecursEvery = value; }
+		}
+
+		public string ScheduleDescription
+		{
+			get { return _ScheduleDescription; }
+			set { _ScheduleDescription = value; }
+		}
+
+		public Byte? ScheduleID
+		{
+			get { return _ScheduleID; }
+			set { _ScheduleID = value; }
+		}
+
+		public string ScheduleName
+		{
+			get { return _ScheduleName; }
+			set { _ScheduleName = value; }
+		}
+
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
+        public string StartTime { get; set; }
+
+        public string EndTime { get; set; }
+
+		public enum Fields
+		{
+			FrequencyTypeID = 0,
+			OccursEveryHour = 1,
+			OccursEveryMinute = 2,
+			OccursOnce = 3,
+			OccursOnceAt = 4,
+			RecursEvery = 5,
+			ScheduleDescription = 6,
+			ScheduleID = 7,
+			ScheduleName = 8
+		}
+	}
+}

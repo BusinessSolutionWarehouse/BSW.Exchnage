@@ -1,0 +1,328 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.ComponentModel;
+using BSW_ExchangeShared;
+using BSW_ExchangeData;
+using System.Timers;
+using System.Data.SqlClient;
+
+namespace BSW_ExchangeService
+{
+    public class AdatorThread:BackgroundWorker
+    {
+        private ProfileModel _profile = new ProfileModel();
+        private List<ScheduleModel> _schedule = new List<ScheduleModel>();
+        private Timer _timer = null;
+
+        /// <summary>
+        /// Close this thread and close it - making sure all processing stops
+        /// </summary>
+        public void CloseProcess()
+        {
+            try
+            {
+                if (!this.CancellationPending)
+                    this.CancelAsync();
+
+                if (_timer != null)
+                {
+                    _timer.Enabled = false;
+                    _timer.Stop();
+                    _timer.Dispose();
+                }
+
+                this.Dispose();
+            }
+            catch
+            {
+
+            }
+        }
+
+        public ProfileModel Profile
+        {
+            get { return _profile; }
+            set { _profile = value; }
+        }
+
+        protected override void OnDoWork(DoWorkEventArgs e)
+        {
+            try
+            {
+                string msg = string.Empty;
+                //get the schedule and all the rest of the profile information needed
+                using (ScheduleController controller = new ScheduleController())
+                {
+                    if (controller.GetProfileSchedule(Convert.ToInt16(_profile.ProfileID), ref msg))
+                    {
+                        foreach (ScheduleModel model in controller)
+                        {
+                            _schedule.Add(model);
+                        }
+                    }
+                    else
+                    {
+                        EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), msg, EventLogType.Error);
+                        EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+                    }
+                    //if we have one or more schedules - we can start the timer
+                    _timer = new Timer();
+                    _timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
+                    _timer.Interval = 60000;//the time will run every minute 60000
+                    _timer.Enabled = true;
+                    _timer.Start();
+
+                    // We need to use KeepAlive to prevent garbage collection from occurring 
+                    // before the method ends. 
+                    GC.KeepAlive(_timer);
+
+                    
+                }
+            }
+            catch (Exception exp)
+            {
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), exp.Message, EventLogType.Error);
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+            }
+            base.OnDoWork(e);
+        }
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                string msg = string.Empty;
+
+                _timer.Enabled = false;
+                _timer.Stop();
+
+                EventLog.LogEvent("BSWExchangeService", "Check - Profile Schedule", EventLogType.Information);
+
+                if (_schedule != null && _schedule.Count > 0)
+                {
+                    bool hadError = false;
+                    DateTime? _lastRunDT = null;
+
+                    //get the last time this prosess run
+                    using (ProfileHistoryController controller = new ProfileHistoryController())
+                    {
+                        if (controller.GetLastRunTime(Convert.ToByte(_profile.ProfileID), ref msg))
+                        {
+                            if (controller.Count > 0)
+                            {
+                                _lastRunDT = Convert.ToDateTime(controller[0].EventDT);
+                            }
+                        }
+                        else
+                        {
+                            EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), msg, EventLogType.Error);
+                            EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+                            hadError = true;
+                        }
+                    }
+                    if (!hadError)
+                    {
+                        //let's check all the possible linked schedules
+                        foreach (ScheduleModel schedule in _schedule)
+                        {
+                            if (CanRunProcess(schedule, _lastRunDT))
+                            {
+                                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID),"Starting Process on Schedule-" + schedule.ScheduleName, EventLogType.ProcessStart);
+                                RunProcess();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), exp.Message, EventLogType.Error);
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+            }
+
+            _timer.Enabled = true;
+            _timer.Start();
+        }
+
+        private bool CanRunProcess(ScheduleModel schedule, DateTime? lastRundate)
+        {
+            bool result = true;
+            try
+            {
+                DateTime _TimeNow = DateTime.Now;
+                DateTime _LastRun = DateTime.Now.AddDays(-1);
+
+                //check if we have start and end dates
+                if (schedule.StartDate.HasValue)
+                {
+                    if (DateTime.Now < schedule.StartDate)
+                        return false;
+                }
+                if (schedule.EndDate.HasValue)
+                {
+                    if (DateTime.Now > schedule.EndDate)
+                        return false;
+                }
+
+                //check the times
+                if (!string.IsNullOrEmpty(schedule.StartTime))
+                {
+                    DateTime startT = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd ") + schedule.StartTime);
+                    if (DateTime.Now < startT)
+                        return false;
+                }
+
+                if (!string.IsNullOrEmpty(schedule.EndTime))
+                {
+                    DateTime endT = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd ") + schedule.EndTime);
+                    if (DateTime.Now > endT)
+                        return false;
+                }
+                //check the schedule - running time is with in the set start and end datetime range
+                switch ((ScheduleFrequencyType)Convert.ToByte(schedule.FrequencyTypeID))
+                {
+                    case ScheduleFrequencyType.Dailey:
+                        //check if the process must only run once a day
+                        if (schedule.OccursOnce)
+                        {
+                            //we need to format both dates to be the same
+                           DateTime _RunAT = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd ") + schedule.OccursOnceAt);
+                           
+
+                            if (lastRundate != null)
+                                _LastRun = Convert.ToDateTime(lastRundate);
+
+                            //check if this process run today already
+                            TimeSpan diff = _TimeNow - _LastRun;
+                            if (Convert.ToInt32(diff.TotalDays) >= 1)
+                            {
+                                //check if it's time to run now
+                                TimeSpan runNow = _TimeNow - _RunAT;
+                                if (Convert.ToInt32(runNow.TotalMinutes) == 0)
+                                    result = true;
+                                else
+                                    result = false;
+                            }
+                            else
+                                result = false;
+
+                        }
+
+                        //lest see if me must run the process more then once a day
+                        if (!schedule.OccursOnce)
+                        {
+                            if (lastRundate == null)
+                                result = true;
+                            else
+                            {
+                                _LastRun = Convert.ToDateTime(lastRundate);
+                                TimeSpan diff = _TimeNow - _LastRun;
+                                if (schedule.OccursEveryHour > 0)
+                                {
+                                    if (Convert.ToInt32(diff.TotalHours) == schedule.OccursEveryHour)
+                                        result = true;
+                                    else
+                                        result = false;
+                                }
+                                if (schedule.OccursEveryMinute > 0)
+                                {
+                                    if (Convert.ToInt32(diff.TotalMinutes) >= schedule.OccursEveryMinute)
+                                        result = true;
+                                    else
+                                        result = false;
+                                }
+                            }
+                        }
+                        
+                        break;
+                    case ScheduleFrequencyType.Weekley:
+                         //Sunday = 0,
+                         //Monday = 1,
+                         //Tuesday = 2,
+                         //Wednesday = 3,
+                         //Thursday = 4,
+                         //Friday = 5,
+                         //Saturday = 6,
+                        //check if today match the day this schedule must run
+                        if ((int)_TimeNow.DayOfWeek == schedule.RecursEvery)
+                        {
+                            DateTime _RunAT = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd ") + schedule.OccursOnceAt);
+
+                            if (lastRundate != null)
+                                _LastRun = Convert.ToDateTime(lastRundate);
+                            //now check if it's time to run
+                            TimeSpan runNow = _TimeNow - _RunAT;
+
+                            if (Convert.ToInt32(runNow.TotalMinutes) == 0)
+                                result = true;
+                            else
+                                result = false;
+                        }
+                        
+                        
+                        break;
+                }
+            }
+            catch (Exception exp)
+            {
+                result = false;
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), exp.Message, EventLogType.Error);
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+            }
+            return result;
+        }
+
+        private void RunProcess()
+        {
+            try
+            {
+                string msg = string.Empty;
+                //we need to get the linked adaptor for this process
+                using (AdaptorController controller = new AdaptorController())
+                {
+                    if (controller.Get(new AdaptorModel { AdaptorID = _profile.AdaptorID }, ref msg))
+                    {
+                        if (controller.Count > 0)
+                        {
+                            //get the type of adaptor
+                            switch ((AdaptorType)Convert.ToByte(controller[0].AdaptorType))
+                            {
+                                case AdaptorType.Application:
+                                    //start the external application
+                                    System.Diagnostics.ProcessStartInfo fileInfo = new System.Diagnostics.ProcessStartInfo();
+                                    fileInfo.FileName = controller[0].ServiceName;
+                                    fileInfo.Arguments = Convert.ToString(_profile.ProfileID);
+                                    fileInfo.UseShellExecute = false;
+                                    System.Diagnostics.Process proc = System.Diagnostics.Process.Start(fileInfo);
+                                    break;
+                                case AdaptorType.StoredProcedure:
+                                    //execute the stored procedure
+                                    List<SqlParameter> listParameters = new List<SqlParameter>();
+                                    BSW_ExchangeData.ControllerManager.ExecuteSP(controller[0].ServiceName, listParameters, ref msg);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Adaptor [" + _profile.AdaptorID + "] Not Found.", EventLogType.Error);
+                            EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+                        }
+                    }
+                    else
+                    {
+                        EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), msg, EventLogType.Error);
+                        EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), exp.Message, EventLogType.Error);
+                EventLog.LogProfileEvent(Convert.ToByte(_profile.ProfileID), "Process Failed - view history for detail", EventLogType.ProcessFailed);
+            }
+        }
+
+    }
+}

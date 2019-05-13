@@ -1,0 +1,163 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace PurchaseOrder.Data
+{
+
+    public partial class CCLTariffCodeValidationController:List<CCLTariffCodeValidationModel>,IController
+    {
+        bool loadDigetGetOnly = false;
+
+        public bool Get(string tariffCode,string unionCode, ref string msg)
+        {
+            bool result = true;
+
+            try
+            {
+                loadDigetGetOnly = false;
+
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+               listParameters.Add(ControllerManager.CreateParameter("@tariffCode", tariffCode, SqlDbType.VarChar));
+               listParameters.Add(ControllerManager.CreateParameter("@tradeunion", unionCode, SqlDbType.VarChar));
+
+               result = ControllerManager.ExecuteSP("CCL_TariffCodesGet", listParameters, this, ref msg);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool GetFinalDiget(string tariffCode, ref string msg)
+        {
+            bool result = true;
+
+            try
+            {
+                loadDigetGetOnly = true;
+
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+                listParameters.Add(ControllerManager.CreateParameter("@TariffCode", tariffCode, SqlDbType.VarChar));
+
+                result = ControllerManager.ExecuteSP("CCL_TariffCodeDigetLookup", listParameters, this, ref msg);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool UpdateProductTariffCode(string oldCode,string newCode, ref string msg)
+        {
+            bool result = true;
+
+            try
+            {
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+                listParameters.Add(ControllerManager.CreateParameter("@OldTariffCode", oldCode, SqlDbType.VarChar));
+
+                listParameters.Add(ControllerManager.CreateParameter("@NewTariffCode", newCode, SqlDbType.VarChar));
+
+                result = ControllerManager.ExecuteSP("ProductUpdateTariffCodeOnly", listParameters, ref msg);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool ReadModelData(SqlDataReader reader, ref string msg)
+        {
+            try
+            {
+                CCLTariffCodeValidationModel model = new CCLTariffCodeValidationModel();
+
+                model.TariffCode = ControllerManager.Converter.ToString(reader["TariffCode"]);
+                model.Success = Convert.ToBoolean(reader["Success"]);
+                model.ResultMSG = ControllerManager.Converter.ToString(reader["ResultMSG"]);
+
+                if (!loadDigetGetOnly)
+                {
+                    model.s1P1Duty = ControllerManager.Converter.ToString(reader["s1P1Duty"]);
+                    model.s1P2ACode = ControllerManager.Converter.ToString(reader["s1P2ACode"]);
+                    model.s1P2ADuty = ControllerManager.Converter.ToString(reader["s1P2ADuty"]);
+                    model.s1P2BDuty = ControllerManager.Converter.ToString(reader["s1P2BDuty"]);
+                    model.s1P3ACode = ControllerManager.Converter.ToString(reader["s1P3ACode"]);
+                    model.s1P3ADuty = ControllerManager.Converter.ToString(reader["s1P3ADuty"]);
+                    model.s1P3BCode = ControllerManager.Converter.ToString(reader["s1P3BCode"]);
+                    model.s1P3BDuty = ControllerManager.Converter.ToString(reader["s1P3BDuty"]);
+                    model.s1P3CCode = ControllerManager.Converter.ToString(reader["s1P3CCode"]);
+                    model.s1P3CDuty = ControllerManager.Converter.ToString(reader["s1P3CDuty"]);
+                    model.s1P3DCode = ControllerManager.Converter.ToString(reader["s1P3DCode"]);
+                    model.s1P3DDuty = ControllerManager.Converter.ToString(reader["s1P3DDuty"]);
+                    model.s1P5ADuty = ControllerManager.Converter.ToString(reader["s1P5ADuty"]);
+                    model.s1P5BDuty = ControllerManager.Converter.ToString(reader["s1P5BDuty"]);
+                    model.s2P1Duty = ControllerManager.Converter.ToString(reader["s2P1Duty"]);
+                    model.s2P1DutyCode = ControllerManager.Converter.ToString(reader["s2P1DutyCode"]);
+                    model.s2P2Duty = ControllerManager.Converter.ToString(reader["s2P2Duty"]);
+                    model.s2P2DutyCode = ControllerManager.Converter.ToString(reader["s2P2DutyCode"]);
+                    model.s2P3Duty = ControllerManager.Converter.ToString(reader["s2P3Duty"]);
+                    model.s2P3DutyCode = ControllerManager.Converter.ToString(reader["s2P3DutyCode"]);
+                    model.TotalDue = ControllerManager.Converter.ToString(reader["TotalDue"]);
+                    model.TotalDuties = ControllerManager.Converter.ToString(reader["TotalDuties"]);
+                    model.VatValue = ControllerManager.Converter.ToString(reader["VatValue"]);
+                }
+                
+                               
+
+                this.Add(model);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                return false;
+            }
+        }
+
+        public void ClearModelData()
+        {
+            Clear();
+        }
+
+        #region - Methods : Dispose -
+
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    ClearModelData();
+                }
+            }
+            _disposed = true;
+        }
+
+        #endregion
+
+    }
+}

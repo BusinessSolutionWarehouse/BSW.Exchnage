@@ -1,0 +1,312 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using BSW_ExchangeShared;
+using System.Globalization;
+
+namespace BSW_ExchangeShared
+{
+    public class SailingScheduleValidation : IDisposable
+    {
+        public static string[] DateFormats = new string[] { "yyyyMMdd", "yyyy/MM/dd", "yyyy-MM-dd", "yyyy/MM/dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.fff", "yyyy-MM-ddTHH:mm:ss.fff" };
+
+        #region IDisposable/Construction Members
+
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+
+                }
+            }
+            _disposed = true;
+        }
+
+        public SailingScheduleValidation()
+        {
+        }
+
+        #endregion
+
+        public byte ProfileID { get; set; }
+
+        /// <summary>
+        /// Validate the main structure of the xml file
+        /// </summary>
+        /// <param name="doc">Active xml document</param>
+        /// <param name="result">Validation results</param>
+        /// <returns></returns>
+        public bool ValidateStructure(XDocument doc, string result)
+        {
+            bool results = true;
+            try
+            {
+                //Check if we have a vessel-visit
+                var vesselVisit = from d in doc.Descendants("vessel-visit") select d;
+                if (vesselVisit == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <vessel-visit> tag.";
+                    return results;
+                }
+
+                //Check if we have lines
+                var lines = from d in vesselVisit.Elements("lines") select d;
+                if (lines == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <lines> tag.";
+                    return results;
+                }
+                
+                //Now check the required tags in the body
+                var id = from d in vesselVisit.Attributes("id") select d;
+                if (id == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <id> tag.";
+                    return results;
+                }
+
+                var visitPhase = from d in vesselVisit.Attributes("visit-phase") select d;
+                if (visitPhase == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <visit-phase> tag.";
+                    return results;
+                }
+
+                var vesselID = from d in vesselVisit.Attributes("vessel-id") select d;
+                if (vesselID == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <vessel-id> tag.";
+                    return results;
+                }
+
+                var vesselName = from d in vesselVisit.Attributes("vessel-name") select d;
+                if (vesselName == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <vessel-name> tag.";
+                    return results;
+                }
+
+                var serviceID = from d in vesselVisit.Attributes("service-id") select d;
+                if (serviceID == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <service-id> tag.";
+                    return results;
+                }
+
+                var eta = from d in vesselVisit.Attributes("ETA") select d;
+                if (eta == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <ETA> tag.";
+                    return results;
+                }
+
+                var etd = from d in vesselVisit.Attributes("ETD") select d;
+                if (etd == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <ETD> tag.";
+                    return results;
+                }
+
+                var operatorID = from d in vesselVisit.Attributes("operator-id") select d;
+                if (operatorID == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <operator-id> tag.";
+                    return results;
+                }
+
+                var publishedETA = from d in vesselVisit.Attributes("published-eta") select d;
+                if (publishedETA == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <published-eta> tag.";
+                    return results;
+                }
+
+                var publishedETD = from d in vesselVisit.Attributes("published-etd") select d;
+                if (publishedETD == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <published-etd> tag.";
+                    return results;
+                }
+
+                var outCallNumber = from d in vesselVisit.Attributes("out-call-number") select d;
+                if (outCallNumber == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <out-call-number> tag.";
+                    return results;
+                }
+
+                var outVoyNbr = from d in vesselVisit.Attributes("out-voy-nbr") select d;
+                if (outVoyNbr == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <out-voy-nbr> tag.";
+                    return results;
+                }
+
+                var inCallNumber = from d in vesselVisit.Attributes("in-call-number") select d;
+                if (inCallNumber == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <in-call-number> tag.";
+                    return results;
+                }
+
+                var inVoyNbr = from d in vesselVisit.Attributes("in-voy-nbr") select d;
+                if (inVoyNbr == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <in-voy-nbr> tag.";
+                    return results;
+                }
+
+                var classification = from d in vesselVisit.Attributes("classification") select d;
+                if (classification == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <classification> tag.";
+                    return results;
+                }
+
+                var facility = from d in vesselVisit.Attributes("facility") select d;
+                if (facility == null)
+                {
+                    results = false;
+                    result = "Invalid xml file structure - missing <facility> tag.";
+                    return results;
+                }                
+            }
+            catch (Exception exp)
+            {
+                results = false;
+                EventLog.LogProfileEvent(ProfileID, exp.Message, EventLogType.Error);
+            }
+            return results;
+        }
+
+        /// <summary>
+        /// Validate all the required fields
+        /// </summary>
+        /// <param name="xdoc">Active xml document</param>
+        /// <param name="lstValError">List of missing required values</param>
+        /// <returns>Overall result of the validation</returns>
+        public bool ValidateRequiredFields(XDocument xdoc, List<ValidationError> valErrors,bool isAdaptor,ref string vesselvisitID)
+        {
+            bool result = true;
+
+            try
+            {
+                //Vessel-visit
+                var vesselVisit = from d in xdoc.Descendants("vessel-visit") select d;        
+        
+                XAttribute id = vesselVisit.FirstOrDefault().Attribute("id");
+                if (id == null) {valErrors.Add(new ValidationError { Message = @"This XML element is missing '<id>' ", MessageClass = MessageClass.FailedStructuraError });}
+                vesselvisitID = id.Value.ToString();
+
+                XAttribute visitPhase = vesselVisit.FirstOrDefault().Attribute("visit-phase");
+                if (visitPhase == null) {valErrors.Add(new ValidationError { Message = @"This XML element is missing '<visit-phase>' ", MessageClass = MessageClass.FailedStructuraError });}
+
+                XAttribute vesselID = vesselVisit.FirstOrDefault().Attribute("vessel-id");
+                if (vesselID == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<vessel-id>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute vesselName = vesselVisit.FirstOrDefault().Attribute("vessel-name");
+                if (vesselName == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<vessel-name>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute serviceID = vesselVisit.FirstOrDefault().Attribute("service-id");
+                if (serviceID == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<service-id>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute ETA = vesselVisit.FirstOrDefault().Attribute("ETA");
+                if (ETA == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<ETA>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute ETD = vesselVisit.FirstOrDefault().Attribute("ETD");
+                if (ETD == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<ETD>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute operatorID = vesselVisit.FirstOrDefault().Attribute("operator-id");
+                if (operatorID == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<operator-id>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute publishedETA = vesselVisit.FirstOrDefault().Attribute("published-eta");
+                if (publishedETA == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<published-eta>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute publishedETD = vesselVisit.FirstOrDefault().Attribute("published-etd");
+                if (publishedETD == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<published-etd>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute outCallNumber = vesselVisit.FirstOrDefault().Attribute("out-call-number");
+                if (outCallNumber == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<out-call-number>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute outVoyNumber = vesselVisit.FirstOrDefault().Attribute("out-voy-nbr");
+                if (outVoyNumber == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<out-voy-nbr>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute inCallNumber = vesselVisit.FirstOrDefault().Attribute("in-call-number");
+                if (inCallNumber == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<in-call-number>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute inVoyNumber = vesselVisit.FirstOrDefault().Attribute("in-voy-nbr");
+                if (inVoyNumber == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<in-voy-nbr>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute classification = vesselVisit.FirstOrDefault().Attribute("classification");
+                if (classification == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<classification>' ", MessageClass = MessageClass.FailedStructuraError }); }
+
+                XAttribute facility = vesselVisit.FirstOrDefault().Attribute("facility");
+                if (facility == null) { valErrors.Add(new ValidationError { Message = @"This XML element is missing '<facility>' ", MessageClass = MessageClass.FailedStructuraError }); }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                EventLog.LogProfileEvent(ProfileID, ex.Message, EventLogType.Error);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get and validate the message id and Message date
+        /// </summary>
+        /// <param name="xdoc">XML Document</param>
+        /// <param name="messageDT">return message date</param>
+        /// <param name="messageID">return message id</param>
+        /// <param name="valErrors">List of errors - if any</param>
+        /// <returns></returns>
+        public bool GetMessageIDAndDate(XDocument xdoc, ref DateTime messageDT, ref string messageID, List<ValidationError> valErrors)
+        {
+            bool result = true;
+            try
+            {
+                var vesselVisit = from d in xdoc.Descendants("vessel-visit") select d;
+                messageID = vesselVisit.FirstOrDefault().Attribute("id").Value;
+                if (string.IsNullOrEmpty(messageID)) { valErrors.Add(new ValidationError { Message = "Invalid xml file structure - missing <vessel-visit><id> tag.", MessageClass = MessageClass.FailedStructuraError }); result = false; }
+                messageDT = DateTime.Now;
+
+            }
+            catch (Exception exp)
+            {
+                result = false;
+                valErrors.Add(new ValidationError { Message = exp.Message });
+            }
+
+            return result;
+        }
+    }     
+}

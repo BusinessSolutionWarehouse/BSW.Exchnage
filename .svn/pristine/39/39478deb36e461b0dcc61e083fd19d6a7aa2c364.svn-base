@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace PurchaseOrder.Data
+{
+    public class SupplierController:List<SupplierModel>,IController
+    {
+
+        public bool GetDetail(SupplierModel model, ref string msg)
+        {
+            bool result = true;
+
+            try
+            {
+                List<SqlParameter> listParameters = new List<SqlParameter>();
+
+                if (!string.IsNullOrEmpty(model.SupplierCode))
+                    listParameters.Add(ControllerManager.CreateParameter("@SupplierCode", model.SupplierCode, SqlDbType.VarChar));
+
+                if (model.SupplierID.HasValue)
+                    listParameters.Add(ControllerManager.CreateParameter("@SupplierID", model.SupplierID.Value, SqlDbType.Int));
+
+                if (!string.IsNullOrEmpty(model.SupplierName))
+                    listParameters.Add(ControllerManager.CreateParameter("@SupplierName", model.SupplierName, SqlDbType.VarChar));
+
+
+                result = ControllerManager.ExecuteSP("BusinessEntitySupplierDetailGet", listParameters, this, ref msg);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool ReadModelData(SqlDataReader reader, ref string msg)
+        {
+            try
+            {
+                SupplierModel model = new SupplierModel();
+
+                model.SupplierID = ControllerManager.Converter.ToInt32(reader["BusinessEntityID"]);
+                model.SupplierCode = ControllerManager.Converter.ToString(reader["BusinessEntityCode"]);
+                model.SupplierName = ControllerManager.Converter.ToString(reader["BusinessEntityName"]);
+                model.DefaultPortCode = ControllerManager.Converter.ToString(reader["DefaultPort"]);
+                model.CountryOfOriginID = ControllerManager.Converter.ToInt32(reader["CountryOfOrigin"]);
+                model.PaymentTermID = ControllerManager.Converter.ToByte(reader["PaymentTermID"]);
+                model.DefaultCurrencyID = ControllerManager.Converter.ToInt32(reader["DefaultCurrencyID"]);
+                model.PaymentTriggerID = ControllerManager.Converter.ToByte(reader["PaymentTriggerID"]);
+                model.IncoTermCode = ControllerManager.Converter.ToString(reader["INCOTermCode"]);
+                model.TransportModeID = ControllerManager.Converter.ToByte(reader["TransportModeID"]);
+                model.SupplierRoleLinkID = ControllerManager.Converter.ToInt32(reader["BusinessEntityRoleLinkID"]);
+                model.PaymentMethod = ControllerManager.Converter.ToByte(reader["PaymentMethodID"]);
+
+                this.Add(model);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                return false;
+            }
+        }
+
+        public void ClearModelData()
+        {
+            Clear();
+        }
+
+        #region - Methods : Dispose -
+
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    ClearModelData();
+                }
+            }
+            _disposed = true;
+        }
+
+        #endregion
+    }
+}
