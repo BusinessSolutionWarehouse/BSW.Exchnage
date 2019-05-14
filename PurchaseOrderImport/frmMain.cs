@@ -74,7 +74,7 @@ namespace PurchaseOrderImport
                         using (ImportMessageModel model = new ImportMessageModel())
                         {
                             model.MessageStatus = (byte)MessageStatus.ReceivedReady;
-                            model.MessageTypeID = (byte)MessageType.MustekOrderImport;
+                            model.MessageTypeID = (byte)MessageType.PurchaseOrderImport;
 
                             if (controller.Get(model, ref msg))
                             {
