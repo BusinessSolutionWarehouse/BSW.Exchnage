@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7EDDF5FB-1EE1-4A94-93A7-B751C2B817B4}</ProjectGuid>
+    <ProjectGuid>{B2A3576A-9BDB-4CEC-84AC-4619FBEE30A8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BMWCN2Extract</RootNamespace>
-    <AssemblyName>BMWCN2Extract</AssemblyName>
+    <RootNamespace>VVExchange.ExchangePlugin.XMLImport</RootNamespace>
+    <AssemblyName>VVExchange.ExchangePlugin.XMLImport</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -37,7 +37,10 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,11 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\ControllerManager.cs" />
-    <Compile Include="Data\IController.cs" />
-    <Compile Include="Data\ModelBase.cs" />
-    <Compile Include="Data\NTCN2DataController.cs" />
-    <Compile Include="Data\NTCN2DataModel.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +59,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service.cs" />
+    <Compile Include="Web References\VVExchangeService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -70,7 +77,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -80,18 +89,56 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Web References\VVExchangeService\ImportMessageModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\VVExchangeService\mex.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\VVExchangeService\mex0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\VVExchangeService\mex1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\VVExchangeService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\VVExchangeService\Service.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BSW-ExchangeData\BSW-ExchangeData.csproj">
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://41.223.34.126:5678/">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\VVExchangeService\</RelPath>
+      <UpdateFromURL>http://41.223.34.126:5678/</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>VVExchange_ExchangePlugin_XMLImport_VVExchangeService_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\VVExchangeService\mex.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BSW-ExchangeData\BSW-ExchangeData.csproj">
       <Project>{A2B14E25-FD52-43A0-8B12-D3EF7E3A854A}</Project>
       <Name>BSW-ExchangeData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BSW-ExchangeShared\BSW-ExchangeShared.csproj">
+    <ProjectReference Include="..\..\BSW-ExchangeShared\BSW-ExchangeShared.csproj">
       <Project>{B54899D9-EDA1-427A-BD1C-B0D631AE69BE}</Project>
       <Name>BSW-ExchangeShared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

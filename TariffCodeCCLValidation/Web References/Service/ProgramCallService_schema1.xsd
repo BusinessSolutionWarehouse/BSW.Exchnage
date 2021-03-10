@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://ws.cc.com/" targetNamespace="http://ws.cc.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="callCCL9010" type="tns:callCCL9010" />
+  <xs:element name="callCCL9010Response" type="tns:callCCL9010Response" />
+  <xs:element name="callProgram" type="tns:callProgram" />
+  <xs:element name="callProgramResponse" type="tns:callProgramResponse" />
+  <xs:element name="getPcmlDocument" type="tns:getPcmlDocument" />
+  <xs:element name="getPcmlDocumentResponse" type="tns:getPcmlDocumentResponse" />
+  <xs:complexType name="callCCL9010">
+    <xs:sequence>
+      <xs:element minOccurs="0" form="qualified" name="ccl9010" type="tns:ccl9010" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ccl9010">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AUTHDATA" type="tns:authenticationData" />
+      <xs:element minOccurs="0" name="BEDATA" type="tns:dccl9010V" />
+      <xs:element minOccurs="0" name="DATA" type="tns:dccl9010" />
+      <xs:element minOccurs="0" name="RETURNDTA" type="tns:dccl9010R" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="authenticationData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="agent" type="xs:string" />
+      <xs:element minOccurs="0" name="key" type="xs:string" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+      <xs:element minOccurs="0" name="user" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="dccl9010V">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="APPLYS1P2B" type="xs:string" />
+      <xs:element minOccurs="0" name="ORIGIN" type="xs:string" />
+      <xs:element minOccurs="0" name="WFACTOR" type="xs:string" />
+      <xs:element minOccurs="0" name="WFORVAL" type="xs:string" />
+      <xs:element minOccurs="0" name="WQTY1" type="xs:string" />
+      <xs:element minOccurs="0" name="WQTY2" type="xs:string" />
+      <xs:element minOccurs="0" name="WQTY3" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="dccl9010">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ADDINFO" type="xs:string" />
+      <xs:element minOccurs="0" name="ANDOR" type="xs:string" />
+      <xs:element minOccurs="0" name="CENTSPERUNIT" type="xs:string" />
+      <xs:element minOccurs="0" name="DISCOUNTPERC" type="xs:string" />
+      <xs:element minOccurs="0" name="DUTYPERC" type="xs:string" />
+      <xs:element minOccurs="0" name="HIGHLOW" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P2BCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P2BFLAG" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P2BPERC" type="xs:string" />
+      <xs:element minOccurs="0" name="SPECIAL" type="xs:string" />
+      <xs:element minOccurs="0" name="TARIFF" type="xs:string" />
+      <xs:element minOccurs="0" name="TARTYPE" type="xs:string" />
+      <xs:element minOccurs="0" name="TEXTILE" type="xs:string" />
+      <xs:element minOccurs="0" name="UNIT1" type="xs:string" />
+      <xs:element minOccurs="0" name="UNIT2" type="xs:string" />
+      <xs:element minOccurs="0" name="UNIT3" type="xs:string" />
+      <xs:element minOccurs="0" name="UNITFACTOR" type="xs:string" />
+      <xs:element minOccurs="0" name="UNITPOINTER" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="dccl9010R">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AMSG" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ATVVALUE" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P1DUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P2ACODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P2ADUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P2BDUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3ACODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3ADUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3BCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3BDUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3CCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3CDUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3DCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P3DDUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P5ADUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s1P5BDUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s2P1DUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s2P1DUTYCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s2P2DUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s2P2DUTYCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="s2P3DUTY" type="xs:string" />
+      <xs:element minOccurs="0" name="s2P3DUTYCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="SUCCES" type="xs:string" />
+      <xs:element minOccurs="0" name="TOTALDUE" type="xs:string" />
+      <xs:element minOccurs="0" name="TOTALDUTIES" type="xs:string" />
+      <xs:element minOccurs="0" name="VATVALUE" type="xs:string" />
+      <xs:element minOccurs="0" name="WCUSVAL" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="callCCL9010Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:ccl9010" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="callProgram">
+    <xs:sequence>
+      <xs:element minOccurs="0" form="qualified" name="authData" type="tns:authenticationData" />
+      <xs:element minOccurs="0" form="qualified" name="program" type="xs:string" />
+      <xs:element minOccurs="0" form="qualified" name="pcmlDocument" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="callProgramResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:programCallResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="programCallResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="error" type="xs:string" />
+      <xs:element name="executed" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pcmlDocument" type="xs:string" />
+      <xs:element minOccurs="0" name="program" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getPcmlDocument">
+    <xs:sequence>
+      <xs:element minOccurs="0" form="qualified" name="authData" type="tns:authenticationData" />
+      <xs:element minOccurs="0" form="qualified" name="program" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getPcmlDocumentResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:programCallResult" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

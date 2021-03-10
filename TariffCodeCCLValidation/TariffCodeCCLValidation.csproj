@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7EDDF5FB-1EE1-4A94-93A7-B751C2B817B4}</ProjectGuid>
+    <ProjectGuid>{74AC732F-41AB-4C08-A902-B0B0F9280E70}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BMWCN2Extract</RootNamespace>
-    <AssemblyName>BMWCN2Extract</AssemblyName>
+    <RootNamespace>TariffCodeCCLValidation</RootNamespace>
+    <AssemblyName>TariffCodeCCLValidation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -35,9 +35,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,11 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\ControllerManager.cs" />
-    <Compile Include="Data\IController.cs" />
-    <Compile Include="Data\ModelBase.cs" />
-    <Compile Include="Data\NTCN2DataController.cs" />
-    <Compile Include="Data\NTCN2DataModel.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +58,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web References\Service\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -70,7 +75,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -80,18 +87,54 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Web References\Service\ccl90101.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Service\programCallResult1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Service\ProgramCallService.wsdl" />
+    <None Include="Web References\Service\ProgramCallService_schema1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\Service\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BSW-ExchangeData\BSW-ExchangeData.csproj">
-      <Project>{A2B14E25-FD52-43A0-8B12-D3EF7E3A854A}</Project>
-      <Name>BSW-ExchangeData</Name>
+    <ProjectReference Include="..\PurchaseOrder.Data\PurchaseOrder.Data.csproj">
+      <Project>{9CC676DD-8194-4DE2-AB1C-9AAF72D9BA79}</Project>
+      <Name>PurchaseOrder.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BSW-ExchangeShared\BSW-ExchangeShared.csproj">
-      <Project>{B54899D9-EDA1-427A-BD1C-B0D631AE69BE}</Project>
-      <Name>BSW-ExchangeShared</Name>
+    <ProjectReference Include="..\TariffBook.Data\TariffBook.Data.csproj">
+      <Project>{C69DA4A5-2E15-4D11-946B-A0C69A90898B}</Project>
+      <Name>TariffBook.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://196.35.177.122:8000/cWebServices/ProgramCallService/WEB-INF/wsdl/ProgramCallService.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Service\</RelPath>
+      <UpdateFromURL>http://196.35.177.122:8000/cWebServices/ProgramCallService/WEB-INF/wsdl/ProgramCallService.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>TariffCodeCCLValidation_Service1_ProgramCallService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HTMLPage1.htm" />
+    <Content Include="HTMLPage2.htm" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7EDDF5FB-1EE1-4A94-93A7-B751C2B817B4}</ProjectGuid>
+    <ProjectGuid>{40EE8AB2-97D7-42DC-A7D7-2CB8F51B1E62}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BMWCN2Extract</RootNamespace>
-    <AssemblyName>BMWCN2Extract</AssemblyName>
+    <RootNamespace>BSW_FTP</RootNamespace>
+    <AssemblyName>BSW-FTP</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -35,9 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,19 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\ControllerManager.cs" />
-    <Compile Include="Data\IController.cs" />
-    <Compile Include="Data\ModelBase.cs" />
-    <Compile Include="Data\NTCN2DataController.cs" />
-    <Compile Include="Data\NTCN2DataModel.cs" />
-    <Compile Include="frmMain.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.cs">
-      <DependentUpon>frmMain.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -70,7 +66,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -82,16 +77,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BSW-ExchangeData\BSW-ExchangeData.csproj">
-      <Project>{A2B14E25-FD52-43A0-8B12-D3EF7E3A854A}</Project>
-      <Name>BSW-ExchangeData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BSW-ExchangeShared\BSW-ExchangeShared.csproj">
-      <Project>{B54899D9-EDA1-427A-BD1C-B0D631AE69BE}</Project>
-      <Name>BSW-ExchangeShared</Name>
+    <ProjectReference Include="..\BSWFTPClient\BSWFTPClient.csproj">
+      <Project>{411B7BB1-E469-4CF2-A249-1A832F477061}</Project>
+      <Name>BSWFTPClient</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

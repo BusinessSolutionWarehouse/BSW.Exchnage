@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7EDDF5FB-1EE1-4A94-93A7-B751C2B817B4}</ProjectGuid>
+    <ProjectGuid>{ECFE7462-BD4A-4CB3-A847-A7F9EBD09F61}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BMWCN2Extract</RootNamespace>
-    <AssemblyName>BMWCN2Extract</AssemblyName>
+    <RootNamespace>SailingSchedule.XMLImport</RootNamespace>
+    <AssemblyName>SailingSchedule.XMLImport</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -35,9 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,11 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\ControllerManager.cs" />
-    <Compile Include="Data\IController.cs" />
-    <Compile Include="Data\ModelBase.cs" />
-    <Compile Include="Data\NTCN2DataController.cs" />
-    <Compile Include="Data\NTCN2DataModel.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +54,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -82,16 +78,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BSW-ExchangeData\BSW-ExchangeData.csproj">
+    <ProjectReference Include="..\..\BSW-ExchangeData\BSW-ExchangeData.csproj">
       <Project>{A2B14E25-FD52-43A0-8B12-D3EF7E3A854A}</Project>
       <Name>BSW-ExchangeData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BSW-ExchangeShared\BSW-ExchangeShared.csproj">
+    <ProjectReference Include="..\..\BSW-ExchangeShared\BSW-ExchangeShared.csproj">
       <Project>{B54899D9-EDA1-427A-BD1C-B0D631AE69BE}</Project>
       <Name>BSW-ExchangeShared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

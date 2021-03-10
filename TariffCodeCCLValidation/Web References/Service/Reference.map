@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://196.35.177.122:8000/cWebServices/ProgramCallService/WEB-INF/wsdl/ProgramCallService.wsdl" filename="ProgramCallService.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://196.35.177.122:8000/cWebServices/ProgramCallService/WEB-INF/wsdl/ProgramCallService_schema1.xsd" filename="ProgramCallService_schema1.xsd" />
+  </Results>
+</DiscoveryClientResultsFile>

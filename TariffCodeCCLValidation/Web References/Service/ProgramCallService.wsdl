@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.cc.com/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" name="ProgramCallService" targetNamespace="http://ws.cc.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="ProgramCallService_schema1.xsd" namespace="http://ws.cc.com/" />
+    </xsd:schema>
+  </types>
+  <message name="getPcmlDocumentResponse">
+    <part name="parameters" element="tns:getPcmlDocumentResponse" />
+  </message>
+  <message name="callCCL9010">
+    <part name="parameters" element="tns:callCCL9010" />
+  </message>
+  <message name="callCCL9010Response">
+    <part name="parameters" element="tns:callCCL9010Response" />
+  </message>
+  <message name="callProgram">
+    <part name="parameters" element="tns:callProgram" />
+  </message>
+  <message name="callProgramResponse">
+    <part name="parameters" element="tns:callProgramResponse" />
+  </message>
+  <message name="getPcmlDocument">
+    <part name="parameters" element="tns:getPcmlDocument" />
+  </message>
+  <portType name="ProgramCall">
+    <operation name="callCCL9010">
+      <input message="tns:callCCL9010" />
+      <output message="tns:callCCL9010Response" />
+    </operation>
+    <operation name="callProgram">
+      <input message="tns:callProgram" />
+      <output message="tns:callProgramResponse" />
+    </operation>
+    <operation name="getPcmlDocument">
+      <input message="tns:getPcmlDocument" />
+      <output message="tns:getPcmlDocumentResponse" />
+    </operation>
+  </portType>
+  <binding name="ProgramCallPortBinding" type="tns:ProgramCall">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="callCCL9010">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="callProgram">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="getPcmlDocument">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ProgramCallService">
+    <port name="ProgramCallPort" binding="tns:ProgramCallPortBinding">
+      <soap12:address location="http://196.35.177.122:8000/cWebServices/ProgramCallService" />
+    </port>
+  </service>
+</definitions>
